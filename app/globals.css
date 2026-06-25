@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Paleta "Costa Pastel" · Love Motel ── */
+  --color-navy:        #1A3A5A;  /* azul navy suave · texto principal / bloques */
+  --color-navy-2:      #244C70;  /* navy secundario */
+  --color-navy-3:      #2E5B83;  /* navy claro */
+  --color-cielo:       #4FA3D1;  /* azul cielo · acento secundario */
+  --color-cielo-claro: #9BD0EC;  /* azul cielo claro */
+  --color-cielo-suave: #D2E7F2;  /* azul cielo pastel · fondos */
+  --color-naranja:     #E8924E;  /* naranja coral · acento primario / CTA */
+  --color-naranja-vivo:#F2A767;  /* naranja vivo · hover */
+  --color-durazno:     #F7DCC6;  /* durazno pastel · fondos */
+  --color-beige:       #E8DCC6;  /* beige · fondos cálidos de sección */
+  --color-beige-2:     #DCCCB0;  /* beige profundo / bordes */
+  --color-blanco:      #FFFFFF;  /* blanco puro · tarjetas (brillan sobre el fondo) */
+  --color-crema:       #F0EADF;  /* crema apagado · fondo de página */
+  --color-niebla:      #62707F;  /* gris azulado · texto secundario */
+
+  --font-serif: var(--font-fraunces);
+  --font-sans:  var(--font-jakarta);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--color-crema);
+  color: var(--color-navy);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Tarjeta luminosa: blanco puro que resalta sobre el fondo crema ── */
+.card-soft {
+  box-shadow: 0 1px 2px rgba(26,58,90,.04), 0 18px 40px -24px rgba(26,58,90,.30);
+}
+
+/* ── Wordmark ── */
+.wordmark {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: inherit;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.28em;
+  line-height: 1;
+}
+.wordmark em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-naranja);
+}
+
+/* ════ ANIMACIONES DE SCROLL ════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
+}
+.reveal.in { opacity: 1; transform: none; }
+
+/* ── Hero: entrada ── */
+@keyframes heroEnter {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+.hero-enter       { animation: heroEnter 1.3s cubic-bezier(.16,1,.3,1) both; }
+.hero-enter-delay { animation: heroEnter 1.3s .25s cubic-bezier(.16,1,.3,1) both; }
+
+/* ── Hero: revelado de los paneles split ── */
+@keyframes panelInL { from { opacity: 0; transform: scale(1.08) translateX(-2%); } to { opacity: 1; transform: none; } }
+@keyframes panelInR { from { opacity: 0; transform: scale(1.08) translateX(2%);  } to { opacity: 1; transform: none; } }
+.panel-l { animation: panelInL 1.6s cubic-bezier(.16,1,.3,1) both; }
+.panel-r { animation: panelInR 1.6s cubic-bezier(.16,1,.3,1) both; }
+
+/* ── Hero: hover interactivo ── */
+.hero-bg    { transition: filter .8s ease, transform 1.2s ease; }
+.hero-title { transition: transform .6s ease, text-shadow .6s ease; }
+.hero-cta   { transition: transform .35s ease, box-shadow .35s ease, background-color .3s ease; }
+
+.hero-stage:has(.hero-cta:hover) .hero-bg {
+  filter: brightness(.62);
+  transform: scale(1.05);
+}
+.hero-stage:has(.hero-cta:hover) .hero-title {
+  transform: scale(1.03);
+  text-shadow: 0 0 60px rgba(232,132,60,.45), 0 18px 50px rgba(14,42,71,.6);
+}
+.hero-cta:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 55px rgba(232,132,60,.45);
+}
+
+/* ── Botón scroll del hero ── */
+@keyframes scrollDot {
+  0%   { transform: translateY(0);    opacity: 1; }
+  70%  { transform: translateY(9px);  opacity: 0; }
+  100% { transform: translateY(0);    opacity: 0; }
+}
+.scroll-dot { animation: scrollDot 1.8s ease-in-out infinite; }
+
+/* ── Badge +18 flotando ── */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-8px) rotate(.6deg); }
+}
+.badge-float { animation: floaty 7s ease-in-out infinite; }
+
+/* ── Nav: línea animada ── */
+header nav a[href^="#"] { position: relative; }
+header nav a[href^="#"]::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -4px;
+  height: 1.5px; width: 0;
+  background: var(--color-naranja);
+  transition: width .35s ease;
+}
+header nav a[href^="#"]:hover::after { width: 100%; }
+
+/* ── Tarjetas de suite ── */
+#suites a {
+  transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s ease;
+}
+#suites a:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 28px 60px rgba(14,42,71,.18);
+}
+
+/* ── Tarjetas de reseñas ── */
+#reviews article { transition: border-color .4s ease, transform .4s ease, box-shadow .4s ease; }
+#reviews article:hover {
+  border-color: rgba(63,155,212,.5);
+  transform: translateY(-5px);
+  box-shadow: 0 22px 50px rgba(14,42,71,.12);
+}
+
+/* ── Comparativa: entrada escalonada ── */
+@keyframes compIn {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: none; }
+}
+.comp-card {
+  animation: compIn .7s cubic-bezier(.16,1,.3,1) both;
+  transition: transform .45s ease, box-shadow .45s ease;
+}
+.comp-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 28px 60px rgba(14,42,71,.18);
+}
+
+/* ── Precio animado al cambiar turno ── */
+@keyframes precioIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+.precio-anim { animation: precioIn .32s ease; }
+
+/* ── Servicios: marquee ── */
+@keyframes svcMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.svc-track { animation: svcMarquee 36s linear infinite; }
+.svc-track:hover { animation-play-state: paused; }
+.svc-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* ── Servicios: rise ── */
+@keyframes svcRise {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: none; }
+}
+.svc-rise { animation: svcRise .75s cubic-bezier(.16,1,.3,1) both; }
+
+/* ── Shimmer decorativo ── */
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+.shimmer-line {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-naranja) 38%,
+    var(--color-cielo)   50%,
+    var(--color-naranja) 62%,
+    transparent 100%
+  );
+  background-size: 200% auto;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ── Respeto al movimiento reducido ── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.in {
+    opacity: 1 !important; transform: none !important; transition: none !important;
+  }
+  .hero-enter, .hero-enter-delay, .panel-l, .panel-r, .badge-float, .comp-card,
+  .precio-anim, .svc-rise, .scroll-dot, .svc-track { animation: none; }
+  .hero-bg, .hero-title, .hero-cta, #suites a, #reviews article, .comp-card { transition: none; }
+}
